@@ -23,7 +23,7 @@ $(function() {
   ];
 
   var showSQL = function(sql) {
-    sql = $('textarea').val().split('\n');
+    sql = $('textarea').val().trim().split('\n');
     var result = ''
     $.each(sql, function(i, part){
       var className = "part"
