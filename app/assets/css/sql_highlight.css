@@ -1,0 +1,8 @@
+span.part {
+  font-size: 25px;
+}
+
+span.reservedWord {
+  color: #3675af;
+  font-weight: bold;
+}

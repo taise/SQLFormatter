@@ -9,5 +9,9 @@
   },
   "keywords": [],
   "author": "yusaku omasa",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^5.8.23",
+    "react": "^0.14.0"
+  }
 }

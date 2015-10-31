@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
+    <!-- <script src='assets/js/jquery.min.js'></script> -->
+    <script>
+      window.jQuery = window.$ = require('./assets/js/jquery.min.js');
+    </script>
+    <script src='assets/js/bootstrap.min.js'></script>
+    <script src='editor.js'></script>
+    <link rel='stylesheet' href='./assets/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='./assets/css/sql_highlight.css'>
     <title>Electron SQLFormatter</title>
   </head>
   <body>
-    <h1>Hello, electron!</h1>
+    <div class='container'>
+    <h1>SQL Formatter</h1>
+      <div class='row'>
+        <div class='col-xs-6'>
+          <textarea id='editor' class='form-control'  cols='80' rows='20'>
+SELECT
+  id,
+  name
+FROM
+  js.access_logs
+WHERE
+  name = 'a'
+ORDER BY
+  id DESC
+LIMIT
+  10
+;
+</textarea>
+        </div>
+        <p id='sql_result' class='col-xs-6'></p>
+      </div>
+    </div>
   </body>
 </html>
