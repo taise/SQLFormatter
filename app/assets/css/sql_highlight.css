@@ -6,3 +6,7 @@ span.reservedWord {
   color: #3675af;
   font-weight: bold;
 }
+
+span.indent_1 {
+  margin-left: 25px;
+}

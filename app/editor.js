@@ -28,7 +28,9 @@ $(function() {
     $.each(sql, function(i, part){
       var className = "part"
       if($.inArray(part, reservedWord) >= 0) {
-        className += ' reservedWord'
+        className += ' reservedWord';
+      } else {
+        className += ' indent_1';
       };
       result += '<span class="' + className + '">' + part + '</span><br />';
     });
