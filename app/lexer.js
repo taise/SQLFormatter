@@ -5,12 +5,17 @@ var Lexer = function(sql) {
     'SELECT',
     'FROM'
   ]
+  this.functionWord = [
+    'COUNT'
+  ]
   this.TERMINAL_SYMBOL = ';';
   this.LEFT_PAREN ='(';
   this.RIGHT_PAREN =')';
 
   Lexer.prototype.term_list = function() {
-    return this.sql.replace(/;$/, " ;").split(" ");
+    return this.sql.replace(/;$/, " ;")
+                   .replace(/\s?\(\s?/, ' ( ').replace(/\s?\)\s?/, ' ) ')
+                   .split(" ");
   };
 
   Lexer.prototype.tokenize = function() {
@@ -25,11 +30,18 @@ var Lexer = function(sql) {
     var that = this;
     that.term_list().forEach(function(token) {
         var i = that.reservedWord.indexOf(token);
+        var j = that.functionWord.indexOf(token);
         if (i >= 0) {
           result.push([
               token,
               that.reservedWord[i],
               indentLevel
+          ]);
+        } else if(j >= 0) {
+          result.push([
+              token,
+              'FUNCTION',
+              indentLevel + 1
           ]);
         } else if(token === that.TERMINAL_SYMBOL) {
           result.push([
@@ -37,6 +49,20 @@ var Lexer = function(sql) {
               'TERMINAL_SYMBOL',
               indentLevel
           ]);
+        } else if(token === that.LEFT_PAREN) {
+          result.push([
+              token,
+              'LEFT_PAREN',
+              indentLevel + 1
+          ]);
+          indentLevel += 1
+        } else if(token === that.RIGHT_PAREN) {
+          result.push([
+              token,
+              'RIGHT_PAREN',
+              indentLevel
+          ]);
+          indentLevel -= 1
         } else {
           result.push([
               token,
