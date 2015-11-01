@@ -1,18 +1,18 @@
 var assert = require('assert');
-var Parser = require('../app/parser.js');
+var Lexer = require('../app/lexer.js');
 
 
-describe('Parser', function() {
+describe('Lexer', function() {
     var sql = 'SELECT * FROM users;'
     describe('new', function() {
-        var parser = new Parser(sql);
+        var lexer = new Lexer(sql);
 
         it('should return self instance', function () {
-            assert(parser instanceof Parser);
+            assert(lexer instanceof Lexer);
         });
 
         it('should return the sql', function(){
-            assert.equal(sql, parser.sql);
+            assert.equal(sql, lexer.sql);
         });
     });
 });
