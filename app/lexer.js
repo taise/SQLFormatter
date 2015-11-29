@@ -27,7 +27,7 @@ var Lexer = function(sql) {
     /*
      * Return
      * ------
-     * [[reservedWord, token, indentLevel](, ...)]
+     * [[token, reservedWord, indentLevel](, ...)]
      */
     var result = [];
 

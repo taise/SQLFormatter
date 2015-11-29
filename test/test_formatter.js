@@ -24,4 +24,26 @@ describe('Formatter', function() {
             assert.equal(expect, Formatter.trim(sql));
         });
     });
+
+    describe('#indented', function() {
+        it ('should return an array each indented line', function() {
+            var tokenized = [ ['SELECT', 'SELECT', 0],
+              ['*', 'LITERAL', 1],
+              ['FROM', 'FROM', 0],
+              ['users', 'LITERAL', 1],
+              [';', 'TERMINAL_SYMBOL', 0] ];
+            var expect = ['SELECT',
+              '  *',
+              'FROM',
+              '  users',
+              ';'
+            ];
+            var actual = Formatter.indented(tokenized);
+
+            assert.equal(actual.length, expect.length);
+            for(var i = 0; i < actual.length; i++) {
+              assert.deepEqual(actual[i], expect[i]);
+            }
+        });
+    });
 });
