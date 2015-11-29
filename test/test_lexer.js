@@ -62,6 +62,40 @@ describe('Lexer', function() {
             }
         });
 
+        it('should return a tokenized array with functions', function () {
+            var sql = 'SELECT COUNT(id), SUM(age), MAX(updated_at), MIN(created_at) FROM users;';
+            var lexer = new Lexer(sql);
+            var expect = [ ['SELECT', 'SELECT', 0],
+              ['COUNT', 'FUNCTION', 1],
+              ['(', 'LEFT_PAREN', 1],
+              ['id', 'LITERAL', 2],
+              [')', 'RIGHT_PAREN', 1],
+              [',', 'DELIMITER', 1],
+              ['SUM', 'FUNCTION', 1],
+              ['(', 'LEFT_PAREN', 1],
+              ['age', 'LITERAL', 2],
+              [')', 'RIGHT_PAREN', 1],
+              [',', 'DELIMITER', 1],
+              ['MAX', 'FUNCTION', 1],
+              ['(', 'LEFT_PAREN', 1],
+              ['updated_at', 'LITERAL', 2],
+              [')', 'RIGHT_PAREN', 1],
+              [',', 'DELIMITER', 1],
+              ['MIN', 'FUNCTION', 1],
+              ['(', 'LEFT_PAREN', 1],
+              ['created_at', 'LITERAL', 2],
+              [')', 'RIGHT_PAREN', 1],
+              ['FROM', 'FROM', 0],
+              ['users', 'LITERAL', 1],
+              [';', 'TERMINAL_SYMBOL', 0] ];
+            var actual = lexer.tokenize();
+
+            assert.equal(actual.length, expect.length);
+            for(var i = 0; i < actual.length; i++) {
+              assert.deepEqual(actual[i], expect[i]);
+            }
+        });
+
         it('should return a tokenized array with selected columns', function () {
             var sql = 'SELECT name, age FROM users;';
             var lexer = new Lexer(sql);

@@ -6,8 +6,11 @@ var Lexer = function(sql) {
     'FROM'
   ]
   this.functionWord = [
-    'COUNT'
-  ]
+    'COUNT',
+    'SUM',
+    'MAX',
+    'MIN'
+  ];
   this.TERMINAL_SYMBOL = ';';
   this.LEFT_PAREN ='(';
   this.RIGHT_PAREN =')';
@@ -15,7 +18,7 @@ var Lexer = function(sql) {
 
   Lexer.prototype.term_list = function() {
     return this.sql.replace(/;$/, " ;")
-                   .replace(/\s?\(\s?/g, ' ( ').replace(/\s?\)\s?/, ' ) ')
+                   .replace(/\s?\(\s?/g, ' ( ').replace(/\s?\)\s?/g, ' ) ')
                    .replace(/\s?,\s?/g, ' , ')
                    .split(" ");
   };
