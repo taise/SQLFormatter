@@ -11,10 +11,12 @@ var Lexer = function(sql) {
   this.TERMINAL_SYMBOL = ';';
   this.LEFT_PAREN ='(';
   this.RIGHT_PAREN =')';
+  this.DELIMITER =',';
 
   Lexer.prototype.term_list = function() {
     return this.sql.replace(/;$/, " ;")
-                   .replace(/\s?\(\s?/, ' ( ').replace(/\s?\)\s?/, ' ) ')
+                   .replace(/\s?\(\s?/g, ' ( ').replace(/\s?\)\s?/, ' ) ')
+                   .replace(/\s?,\s?/g, ' , ')
                    .split(" ");
   };
 
@@ -47,7 +49,7 @@ var Lexer = function(sql) {
           result.push([
               token,
               'TERMINAL_SYMBOL',
-              indentLevel
+              0
           ]);
         } else if(token === that.LEFT_PAREN) {
           result.push([
@@ -63,6 +65,12 @@ var Lexer = function(sql) {
               indentLevel
           ]);
           indentLevel -= 1
+        } else if(token === that.DELIMITER) {
+          result.push([
+              token,
+              'DELIMITER',
+              indentLevel + 1
+          ]);
         } else {
           result.push([
               token,

@@ -44,7 +44,7 @@ describe('Lexer', function() {
         });
 
         it('should return a tokenized array with function', function () {
-            var sql = 'SELECT COUNT(*) FROM users;'
+            var sql = 'SELECT COUNT(*) FROM users;';
             var lexer = new Lexer(sql);
             var expect = [ ['SELECT', 'SELECT', 0],
               ['COUNT', 'FUNCTION', 1],
@@ -53,6 +53,49 @@ describe('Lexer', function() {
               [')', 'RIGHT_PAREN', 1],
               ['FROM', 'FROM', 0],
               ['users', 'LITERAL', 1],
+              [';', 'TERMINAL_SYMBOL', 0] ];
+            var actual = lexer.tokenize();
+
+            assert.equal(actual.length, expect.length);
+            for(var i = 0; i < actual.length; i++) {
+              assert.deepEqual(actual[i], expect[i]);
+            }
+        });
+
+        it('should return a tokenized array with selected columns', function () {
+            var sql = 'SELECT name, age FROM users;';
+            var lexer = new Lexer(sql);
+            var expect = [ ['SELECT', 'SELECT', 0],
+              ['name', 'LITERAL', 1],
+              [',', 'DELIMITER', 1],
+              ['age', 'LITERAL', 1],
+              ['FROM', 'FROM', 0],
+              ['users', 'LITERAL', 1],
+              [';', 'TERMINAL_SYMBOL', 0] ];
+            var actual = lexer.tokenize();
+
+            assert.equal(actual.length, expect.length);
+            for(var i = 0; i < actual.length; i++) {
+              assert.deepEqual(actual[i], expect[i]);
+            }
+        });
+
+        it('should return a tokenized array with sub-query', function () {
+            var sql = 'SELECT name, age FROM (SELECT name, age FROM users);';
+            var lexer = new Lexer(sql);
+            var expect = [ ['SELECT', 'SELECT', 0],
+              ['name', 'LITERAL', 1],
+              [',', 'DELIMITER', 1],
+              ['age', 'LITERAL', 1],
+              ['FROM', 'FROM', 0],
+              ['(', 'LEFT_PAREN', 1],
+              ['SELECT', 'SELECT', 1],
+              ['name', 'LITERAL', 2],
+              [',', 'DELIMITER', 2],
+              ['age', 'LITERAL', 2],
+              ['FROM', 'FROM', 1],
+              ['users', 'LITERAL', 2],
+              [')', 'RIGHT_PAREN', 1],
               [';', 'TERMINAL_SYMBOL', 0] ];
             var actual = lexer.tokenize();
 
