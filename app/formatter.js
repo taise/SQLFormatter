@@ -20,4 +20,9 @@ Formatter.indented = function(tokenized) {
   });
   return indented;
 }
+
+Formatter.indented_str = function(tokenized) {
+  return this.indented(tokenized).join('\n');
+}
+
 module.exports = Formatter;

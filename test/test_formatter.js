@@ -46,4 +46,17 @@ describe('Formatter', function() {
             }
         });
     });
+
+    describe('#indented_str', function() {
+        it ('should return an indented SQL string', function() {
+            var tokenized = [ ['SELECT', 'SELECT', 0],
+              ['*', 'LITERAL', 1],
+              ['FROM', 'FROM', 0],
+              ['users', 'LITERAL', 1],
+              [';', 'TERMINAL_SYMBOL', 0] ];
+            var expect = 'SELECT\n  *\nFROM\n  users\n;';
+            var actual = Formatter.indented_str(tokenized);
+            assert.equal(actual, expect);
+        });
+    });
 });
